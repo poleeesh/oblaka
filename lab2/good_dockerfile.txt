@@ -1,0 +1,15 @@
+FROM python:3.10-slim
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc wget \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /test
+
+COPY requirements.txt .
+
+RUN pip install -r /requirements.txt
+
+COPY suites/user/test_user.py test_user.py
+
+CMD ["pytest", "test_user.py"]
