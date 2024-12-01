@@ -297,3 +297,48 @@ spec:
 Создаем несколько базовых дашбордов для мониторинга состояния сервиса:
 
 <img src="./imgs/photo_2024-10-11_23-07-17.jpg" width=900>
+
+
+## 5(*) Настройка алертинга
+Алерт будем настраивать при помощи alertmanager'а.
+
+alerts.yaml:
+```
+global:
+  smtp_smarthost: 'smtp.mail.ru:465'
+  smtp_from: 'your-email@example.com' СЮДА МАИЛ ОТКУДА БУДЕТ ОТПРАВЛЕН АЛЕРТ
+  smtp_auth_username: 'your-email@example.com' СЮДА МАИЛ ОТКУДА БУДЕТ ОТПРАВЛЕН АЛЕРТ (должен совпадать со скрином с почты)
+  smtp_auth_password: '***'
+
+route:
+  receiver: 'email-alert'
+
+receivers:
+  - name: 'email-alert'
+    email_configs:
+      - to: 'example@mail.ru' СЮДА МАИЛ ПОЛУЧАТЕЛЯ
+        send_resolved: true
+
+serverFiles:
+  alerting_rules.yml:
+    groups:
+      - name: nginx_alerts
+        rules:
+          - alert: NginxDown
+            expr: nginx_up == 0
+            for: 0m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Nginx is down on {{ $labels.instance }}"
+```
+
+Здесь мы настроили алертинг на почту, сам алерт будет срабатывать, когда метрика *nginx_up* приравняется к нулю (т.е скорее всего nginx упал).
+
+Применяем конфигурацию (kubectl apply alerts.yaml).
+
+Чтобы симулировать падение nginx'а, выполним команду: kubectl exec -it nginx-7b6cfc9d5c-2j4jv -c nginx -- pkill nginx
+
+Заходим в UI AlertManager'а и видим, что нам прилетел ожидаемый алёрт:
+
+<img src="./imgs/pic.jpg" width=900>
