@@ -306,8 +306,8 @@ alerts.yaml:
 ```
 global:
   smtp_smarthost: 'smtp.mail.ru:465'
-  smtp_from: 'your-email@example.com' СЮДА МАИЛ ОТКУДА БУДЕТ ОТПРАВЛЕН АЛЕРТ
-  smtp_auth_username: 'your-email@example.com' СЮДА МАИЛ ОТКУДА БУДЕТ ОТПРАВЛЕН АЛЕРТ (должен совпадать со скрином с почты)
+  smtp_from: 'polina.zvoda@gmail.com' СЮДА МАИЛ ОТКУДА БУДЕТ ОТПРАВЛЕН АЛЕРТ
+  smtp_auth_username: 'polina.zvoda@gmail.com' СЮДА МАИЛ ОТКУДА БУДЕТ ОТПРАВЛЕН АЛЕРТ (должен совпадать со скрином с почты)
   smtp_auth_password: '***'
 
 route:
