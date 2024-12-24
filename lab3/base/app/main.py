@@ -4,6 +4,7 @@ import os
 
 HOST = os.getenv("REDIS_HOST")
 
+HELM_VARIABLE = os.environ.get("HELM_VARIABLE") or "default"
 
 app = Flask(__name__)
 
@@ -13,7 +14,7 @@ redis_client = redis.StrictRedis(host=HOST, port=6379, db=0, decode_responses=Tr
 @app.route('/', methods=['GET'])
 def get_list_1():
     # Получение значений из списка в Redis
-    return "Hello"
+    return f"Hello {HELM_VARIABLE}"
 
 @app.route('/add', methods=['POST'])
 def add_to_list():

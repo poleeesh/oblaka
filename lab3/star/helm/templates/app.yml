@@ -20,6 +20,8 @@ spec:
         env:
         - name: REDIS_HOST
           value: "redis"
+        - name: HELM_VARIABLE
+          value: {{ .Values.HELM_VARIABLE }}
 ---
 apiVersion: v1
 kind: Service
